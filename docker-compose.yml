@@ -1,0 +1,40 @@
+version: '3.7'
+
+networks:
+  backend:
+    driver: bridge
+
+services:
+  mariadb:
+    image: mariadb
+    container_name: MariaDB
+    networks:
+      - backend
+    ports:
+      - 3306:3306
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+
+  node:
+    image: node:alpine
+    container_name: Node
+    networks:
+      - backend
+
+  redis:
+    image: redis:alpine
+    container_name: Redis
+    networks:
+      - backend
+    expose:
+      - 6379
+
+  adminer:
+    image: adminer
+    container_name: Adminer
+    networks:
+      - backend
+    restart: always
+    ports:
+      - 8080:8080
